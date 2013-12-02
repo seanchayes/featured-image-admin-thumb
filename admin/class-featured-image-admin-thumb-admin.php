@@ -241,7 +241,8 @@ class Featured_Image_Admin_Thumb_Admin {
 
         // Get thumbnail ID so we can then get html src to use for thumbnail
         $thumbnail_id = intval( $_POST['thumbnail_id'] );
-        $thumb_url = wp_get_attachment_image( $thumbnail_id, 'fiat_thumb' );
+        $thumb_size = $this->fiat_get_thumb_size();
+        $thumb_url = wp_get_attachment_image( $thumbnail_id, $thumb_size );
         echo $thumb_url;
 
         die();
@@ -263,12 +264,7 @@ class Featured_Image_Admin_Thumb_Admin {
         switch ( $column ) {
             case 'thumb':
                 if ( has_post_thumbnail( $post_id) ) {
-                    $image_sizes = get_intermediate_image_sizes();
-                    if ( in_array( 'fiat_thumb' , $image_sizes) ) {
-                        $thumb_size = 'fiat_thumb';
-                    } else {
-                        $thumb_size = 'thumbnail';
-                    }
+                    $thumb_size = $this->fiat_get_thumb_size();
                     $thumb = get_the_post_thumbnail( $post_id, $thumb_size );
                     echo $thumb;
                 } else {
@@ -285,6 +281,23 @@ class Featured_Image_Admin_Thumb_Admin {
         }
     }
 
+    /**
+     * @return string
+     *
+     * Get our thumb size or return default thumbnail size
+     */
+
+    function fiat_get_thumb_size() {
+
+        $image_sizes = get_intermediate_image_sizes();
+        if ( in_array( 'fiat_thumb' , $image_sizes) ) {
+            $thumb_size = 'fiat_thumb';
+        } else {
+            $thumb_size = 'thumbnail';
+        }
+        return $thumb_size;
+
+    }
     /**
      * @param $columns
      * @return array

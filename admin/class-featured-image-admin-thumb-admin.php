@@ -263,7 +263,13 @@ class Featured_Image_Admin_Thumb_Admin {
         switch ( $column ) {
             case 'thumb':
                 if ( has_post_thumbnail( $post_id) ) {
-                    $thumb = get_the_post_thumbnail($post_id, 'fiat_thumb');
+                    $image_sizes = get_intermediate_image_sizes();
+                    if ( in_array( 'fiat_thumb' , $image_sizes) ) {
+                        $thumb_size = 'fiat_thumb';
+                    } else {
+                        $thumb_size = 'thumbnail';
+                    }
+                    $thumb = get_the_post_thumbnail( $post_id, $thumb_size );
                     echo $thumb;
                 } else {
                     // This nonce "action" parameter must match the Ajax Referrer action used in the js and PHP

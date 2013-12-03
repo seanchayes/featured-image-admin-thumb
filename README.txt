@@ -4,7 +4,7 @@ Donate link: http://www.seanhayes.biz/
 Tags: thumbnail, admin, image, featured
 Requires at least: 3.5.1
 Tested up to: 3.7.1
-Stable tag: 1.0.2
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,7 @@ When active this plugin adds a column to the All Posts / All Pages admin views. 
 3. Select `featured-image-admin-thumb.zip` from your computer
 4. Click 'Install Now'
 5. Activate the plugin in the Plugin dashboard
+6. Consider using a thumbnail regenerator to create specific thumbnails for the All Posts/Pages admin views
 
 = Using FTP =
 
@@ -52,6 +53,10 @@ After checking that the plugin is enabled, be sure to click Screen Options if yo
 2. If the column is not showing in your All Posts/Pages view this shows you where you can check to see that the "Thumb" column is selected to be displayed
 
 == Changelog ==
+
+= 1.1 =
+
+Improved sizing logic when displaying existing thumbnails
 
 = 1.0.2 =
 

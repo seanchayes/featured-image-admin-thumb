@@ -45,6 +45,8 @@ class Featured_Image_Admin_Thumb_Admin {
 
     protected $fiat_nonce = null;
 
+    protected $fiat_image_size = 'fiat_thumb';
+
 	private function __construct() {
 
 		/*
@@ -76,7 +78,7 @@ class Featured_Image_Admin_Thumb_Admin {
 		//add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'add_action_links' ) );
         */
 
-        add_image_size( 'fiat_thumb' , 60  );
+        add_image_size( $this->fiat_image_size , 60  );
 
         add_filter( 'manage_posts_columns' ,        array( $this, 'fiat_add_thumb_column' ) );
         add_action( 'manage_posts_custom_column' ,  array( $this, 'fiat_custom_columns') , 10, 2 );
@@ -241,8 +243,7 @@ class Featured_Image_Admin_Thumb_Admin {
 
         // Get thumbnail ID so we can then get html src to use for thumbnail
         $thumbnail_id = intval( $_POST['thumbnail_id'] );
-        $thumb_size = $this->fiat_get_thumb_size();
-        $thumb_url = wp_get_attachment_image( $thumbnail_id, $thumb_size );
+        $thumb_url = wp_get_attachment_image( $thumbnail_id, array( 60,60 ) );
         echo $thumb_url;
 
         die();
@@ -264,40 +265,55 @@ class Featured_Image_Admin_Thumb_Admin {
         switch ( $column ) {
             case 'thumb':
                 if ( has_post_thumbnail( $post_id) ) {
-                    $thumb_size = $this->fiat_get_thumb_size();
-                    $thumb = get_the_post_thumbnail( $post_id, $thumb_size );
-                    echo $thumb;
+                    // Determine if our image size has been created and use
+                    // that size/attribute combination
+                    // else get the post-thumbnail image and apply custom sizing to
+                    // size it to fit in the admin dashboard
+                    $thumbnail_id = get_post_thumbnail_id( $post_id );
+                    $tpm = wp_get_attachment_metadata( $thumbnail_id );
+                    $sizes = $tpm['sizes'];
+
+                    // Default to thumbnail size (as this will be sized down reducing the bandwidth until the image thumbnail is regenerated)
+                    $fiat_image_size = 'thumbnail';
+
+                    // Review the sizes this particular image has been set to
+
+                    foreach ($sizes as $s => $k) {
+                        if ( $this->fiat_image_size == $s ) {
+
+                            // our size is present, set it and break out
+                            $fiat_image_size = $this->fiat_image_size;
+                            break;
+                        }
+                    }
+
+                    if ( 'thumbnail' == $fiat_image_size ) {
+                        // size down this time
+                        $thumb_url = wp_get_attachment_image( $thumbnail_id, array( 60,60 ) );
+                    } else {
+                        // use native sized image
+                        $thumb_url = get_image_tag( $thumbnail_id, '', '', '', $fiat_image_size );
+                    }
+                    // Here it is!
+                    print_r($thumb_url);
                 } else {
+
                     // This nonce "action" parameter must match the Ajax Referrer action used in the js and PHP
                     // wp-admin/includes/ajax-actions.php wp-includes/pluggable.php
+                    // It's like dealing with the IRS. :-)
+
                     $this->fiat_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post_id );
                     $template_html = '<a title="Set featured image" href="%s" id="set-post-thumbnail" class="fiat_thickbox" >Set <br/>featured image</a>';
                     $html = sprintf( $template_html,
                         home_url() . '/wp-admin/media-upload.php?post_id=' . $post_id .'&amp;type=image&amp;TB_iframe=1&_wpnonce=' . $this->fiat_nonce
                     );
+                    // Click me!
                     echo $html;
                 }
                 break;
         }
     }
 
-    /**
-     * @return string
-     *
-     * Get our thumb size or return default thumbnail size
-     */
-
-    function fiat_get_thumb_size() {
-
-        $image_sizes = get_intermediate_image_sizes();
-        if ( in_array( 'fiat_thumb' , $image_sizes) ) {
-            $thumb_size = 'fiat_thumb';
-        } else {
-            $thumb_size = 'thumbnail';
-        }
-        return $thumb_size;
-
-    }
     /**
      * @param $columns
      * @return array

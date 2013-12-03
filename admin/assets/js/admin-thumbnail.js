@@ -5,6 +5,8 @@
  * Upon clicking "Use as thumbnail" the image selected is set to be the post thumbnail
  * A thumbnail image is then shown in the All Posts / All Pages Admin Dashboard view
  *
+ * @since 1.0.0
+ *
  * global ajaxurl
  */
 (function($){

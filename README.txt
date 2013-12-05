@@ -3,8 +3,8 @@ Contributors: seanchayes
 Donate link: http://www.seanhayes.biz/
 Tags: thumbnail, admin, image, featured
 Requires at least: 3.5.1
-Tested up to: 3.7.1
-Stable tag: 1.1
+Tested up to: 3.8-RC1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,10 @@ After checking that the plugin is enabled, be sure to click Screen Options if yo
 2. If the column is not showing in your All Posts/Pages view this shows you where you can check to see that the "Thumb" column is selected to be displayed
 
 == Changelog ==
+
+= 1.2 =
+
+Add custom media uploader (css and js) support for all registered and active custom post types
 
 = 1.1 =
 

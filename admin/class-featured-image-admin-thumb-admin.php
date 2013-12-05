@@ -85,6 +85,14 @@ class Featured_Image_Admin_Thumb_Admin {
         add_filter( 'manage_pages_columns' ,        array( $this, 'fiat_add_thumb_column') );
         add_action( 'manage_pages_custom_column' ,  array( $this, 'fiat_custom_columns') , 10, 2 );
 
+        // For taxonomies:
+
+        $taxonomies=get_taxonomies('','names');
+
+        foreach ($taxonomies as $taxonomy ) {
+                add_action( "manage_{$taxonomy}_posts_custom_column" ,  array( $this, 'fiat_custom_columns'), 10, 2 );
+                add_filter( "manage_{$taxonomy}_posts_columns" ,        array( $this, 'fiat_add_thumb_column') );
+            }
         add_action( 'wp_ajax_fiat_get_thumbnail',   array( $this, 'fiat_get_thumbnail') );
 
 
@@ -159,7 +167,9 @@ class Featured_Image_Admin_Thumb_Admin {
                 Featured_Image_Admin_Thumb::VERSION );
 		}
 
-        if ( 'edit-page' == $screen->id || 'edit-post' == $screen->id ) {
+        $pt = get_post_type();
+        // Add custom uploader css and js support for all post types.
+        if ( "edit-{$pt}" == $screen->id  ) {
 
             // Add support for custom media uploader to be shown inside a thickbox
             add_thickbox();

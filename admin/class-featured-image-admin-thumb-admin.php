@@ -167,9 +167,9 @@ class Featured_Image_Admin_Thumb_Admin {
                 Featured_Image_Admin_Thumb::VERSION );
 		}
 
-        $pt = get_post_type();
+        $current_post_type = get_post_type();
         // Add custom uploader css and js support for all post types.
-        if ( "edit-{$pt}" == $screen->id  ) {
+        if ( "edit-{$current_post_type}" == $screen->id  ) {
 
             // Add support for custom media uploader to be shown inside a thickbox
             add_thickbox();

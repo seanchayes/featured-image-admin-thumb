@@ -5,13 +5,13 @@
  * @author    Sean Hayes <sean@seanhayes.biz>
  * @license   GPL-2.0+
  * @link      http://www.seanhayes.biz
- * @copyright 2013 Sean Hayes
+ * @copyright 2014 Sean Hayes
  *
  * @wordpress-plugin
  * Plugin Name:       Featured Image Admin Thumb
  * Plugin URI:        http://www.seanhayes.biz
- * Description:       Adds a thumbnail image in an admin column in the All Posts/All Pages view to display the featured image or post thumbnail associated with that post / page.
- * Version:           1.2
+ * Description:       Adds a thumbnail image in an admin column in the All Posts/All Pages/All Custom Post types view to display/change the featured image or post thumbnail associated with that post / page.
+ * Version:           1.3
  * Author:            Sean Hayes
  * Author URI:        http://www.seanhayes.biz
  * Text Domain:       featured-image-admin-thumb-locale

@@ -6,7 +6,7 @@
  * @author    Sean Hayes <sean@seanhayes.biz>
  * @license   GPL-2.0+
  * @link      http://www.seanhayes.biz
- * @copyright 2013 Sean Hayes
+ * @copyright 2014 Sean Hayes
  */
 
 // If uninstall not called from WordPress, then exit

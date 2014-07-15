@@ -137,7 +137,7 @@ class Featured_Image_Admin_Thumb_Admin {
 		$current_post_type = get_post_type();
 		// Add custom uploader css and js support for all post types.
 		if ( "edit-{$current_post_type}" == $screen->id  ) {
-			wp_enqueue_style( 'media-views' );
+			wp_enqueue_style( $this->plugin_slug .'-admin-styles-genericons', plugins_url( 'assets/css/genericons.css', __FILE__ ), array(), Featured_Image_Admin_Thumb::VERSION );
 			wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), Featured_Image_Admin_Thumb::VERSION );
 		}
 
@@ -306,7 +306,7 @@ class Featured_Image_Admin_Thumb_Admin {
                     // Here it is!
 //                    print_r($thumb_url);
 	                $this->fiat_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post_id );
-	                $template_html = '<a title="Change featured image" href="%1$s" id="set-post-thumbnail" class="fiat_thickbox fiat-hover" >%2$s</a>';
+	                $template_html = '<div class="fiat-thumb-container"><a title="Change featured image" href="%1$s" id="set-post-thumbnail" class="fiat_thickbox" >%2$s<span class="genericon genericon-edit fiat-icon"></span></a></div>';
 	                $html = sprintf( $template_html,
 		                home_url() . '/wp-admin/media-upload.php?post_id=' . $post_id .'&amp;type=image&amp;TB_iframe=1&_wpnonce=' . $this->fiat_nonce,
 		                $thumb_url

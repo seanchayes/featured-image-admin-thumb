@@ -96,12 +96,4 @@
         }
     }
 
-	var fiat_thumb = $('.fiat-hover');
-	fiat_thumb.on( 'mouseenter' , function() {
-		$(this).addClass('attachment selected')
-	});
-	fiat_thumb.on( 'mouseleave' , function() {
-		$(this).removeClass('attachment selected')
-	});
-
 }(jQuery));

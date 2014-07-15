@@ -1,9 +1,8 @@
 /* This stylesheet is used to style the admin option form of the plugin. */
-.fiat.media-modal-icon {
-	display: none;
-}
-.fiat-hover {
-	margin: 0 10px 20px;
+.fiat-thumb-container {
 	position: relative;
-	float: left;
+}
+.fiat-icon {
+	font-size: 30px;
+	line-height: 34px;
 }

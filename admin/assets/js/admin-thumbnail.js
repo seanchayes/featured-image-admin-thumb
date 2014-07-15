@@ -67,7 +67,9 @@
                     _ajax_nonce:    nonce
                 }).done ( function( thumb_url )  {
                     // This is the column location to place the img
-                    $( '.thumb', '#post-' + post_id).html( thumb_url );
+					var pre_html = '<a title="Change featured image" href="' + '/wp-admin/media-upload.php?post_id=' + post_id + '&amp;type=image&amp;TB_iframe=1&_wpnonce=' + nonce + '" id="set-post-thumbnail" class="fiat_thickbox" >';
+					var post_html = '<span class="genericon genericon-edit fiat-icon"></span></a>';
+                    $( '.thumb', '#post-' + post_id).html( pre_html + thumb_url + post_html );
                 })
             });
         });

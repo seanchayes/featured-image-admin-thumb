@@ -306,7 +306,7 @@ class Featured_Image_Admin_Thumb_Admin {
                     // Here it is!
 //                    print_r($thumb_url);
 	                $this->fiat_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post_id );
-	                $template_html = '<div class="fiat-thumb-container"><a title="Change featured image" href="%1$s" id="set-post-thumbnail" class="fiat_thickbox" >%2$s<span class="genericon genericon-edit fiat-icon"></span></a></div>';
+	                $template_html = '<a title="Change featured image" href="%1$s" id="set-post-thumbnail" class="fiat_thickbox" >%2$s<span class="genericon genericon-edit fiat-icon"></span></a>';
 	                $html = sprintf( $template_html,
 		                home_url() . '/wp-admin/media-upload.php?post_id=' . $post_id .'&amp;type=image&amp;TB_iframe=1&_wpnonce=' . $this->fiat_nonce,
 		                $thumb_url

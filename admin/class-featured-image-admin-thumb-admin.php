@@ -133,12 +133,11 @@ class Featured_Image_Admin_Thumb_Admin {
 	 */
 	public function enqueue_admin_styles() {
 
-		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
-			return;
-		}
-
 		$screen = get_current_screen();
-		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
+		$current_post_type = get_post_type();
+		// Add custom uploader css and js support for all post types.
+		if ( "edit-{$current_post_type}" == $screen->id  ) {
+			wp_enqueue_style( 'media-views' );
 			wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), Featured_Image_Admin_Thumb::VERSION );
 		}
 
@@ -305,7 +304,14 @@ class Featured_Image_Admin_Thumb_Admin {
                         $thumb_url = get_image_tag( $thumbnail_id, '', '', '', $fiat_image_size );
                     }
                     // Here it is!
-                    print_r($thumb_url);
+//                    print_r($thumb_url);
+	                $this->fiat_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post_id );
+	                $template_html = '<a title="Change featured image" href="%1$s" id="set-post-thumbnail" class="fiat_thickbox fiat-hover" >%2$s</a>';
+	                $html = sprintf( $template_html,
+		                home_url() . '/wp-admin/media-upload.php?post_id=' . $post_id .'&amp;type=image&amp;TB_iframe=1&_wpnonce=' . $this->fiat_nonce,
+		                $thumb_url
+	                );
+	                echo $html;
                 } else {
 
                     // This nonce "action" parameter must match the Ajax Referrer action used in the js and PHP

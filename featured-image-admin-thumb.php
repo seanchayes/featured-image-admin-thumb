@@ -11,7 +11,7 @@
  * Plugin Name:       Featured Image Admin Thumb
  * Plugin URI:        http://www.seanhayes.biz
  * Description:       Adds a thumbnail image in an admin column in the All Posts/All Pages view to display the featured image or post thumbnail associated with that post / page.
- * Version:           1.1
+ * Version:           1.2
  * Author:            Sean Hayes
  * Author URI:        http://www.seanhayes.biz
  * Text Domain:       featured-image-admin-thumb-locale

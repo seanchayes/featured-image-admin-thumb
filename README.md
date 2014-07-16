@@ -3,14 +3,14 @@
 Featured Image Admin Thumbnails plugin enabled in the All Posts/All Pages views
 to display thumbnail images next to each post / page if one is present
 
-Display and set/change a thumbnail image of the feature/post thumbnail attached to the Post/Page when viewing posts/pages in the All Posts/All Pages Admin view.
+Display and set/change a thumbnail image of the feature/post thumbnail attached to the Post/Page/Custom Post Type when viewing posts/pages in the All Posts/All Pages/All Custom Post Type Admin view.
 
 ##Description
 
-When active this plugin adds a column to the All Posts / All Pages admin views. This column, "Thumb", will display a thumbnail of the featured image
+When active this plugin adds a column to the All Posts/All Pages and where supported the All Custom Post Type admin views. This column, "Thumb", will display a thumbnail of the featured image
  or post thumbnail so you can easily determine the content that is missing an image.
 
-You can also change the image from the All Posts/All Pages / All <Custom Post Type> view without having to edit the post.
+You can also change the thumb/image from the All Posts/All Pages/All Custom Post Type view without having to edit the post.
 
 ###Installation
 
@@ -51,7 +51,7 @@ After checking that the plugin is enabled, be sure to click Screen Options if yo
 
 ###Changelog
 
-= 1.3 =
+= 1.3 (2014-07-15) =
 Added highlighting on images in All Post/All Pages/All Custom Post Type screens - displaying an edit icon that when clicked can change the featured image inline without having to edit the relevant content item
 
 = 1.2 =

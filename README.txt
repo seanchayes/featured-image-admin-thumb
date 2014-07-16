@@ -53,6 +53,7 @@ After checking that the plugin is enabled, be sure to click Screen Options if yo
 
 1. This shows the Thumb column in the All Pages/Posts admin view and in this case a thumbnail is available and shown. There would be a blank space if no thumbnail was found for the post or page.
 2. If the column is not showing in your All Posts/Pages view this shows you where you can check to see that the "Thumb" column is selected to be displayed
+3. Shows the change icon located next to a featured image/thumb indicating it can be changed inline without having to edit the content item first
 
 == Changelog ==
 

@@ -3,7 +3,7 @@
  *
  * Generates a custom image uploader / selector tied to a post where the click action originated
  * Upon clicking "Use as thumbnail" the image selected is set to be the post thumbnail
- * A thumbnail image is then shown in the All Posts / All Pages Admin Dashboard view
+ * A thumbnail image is then shown in the All Posts / All Pages / All Custom Post types Admin Dashboard view
  *
  * @since 1.0.0
  *
@@ -19,11 +19,11 @@
     jQuery(document).on('click', '.fiat_thickbox', function(event) {
         event.preventDefault();
 
-        // Get our nonce for use later with AJAX post.
         var that    = this.href;
         // get post id to assign thumbnail to
         var post_id = FIATparseUrl(that).params.post_id;
         var type    = FIATparseUrl(that).params.type;
+        // Get our nonce for use later with AJAX post.
         var nonce   = FIATparseUrl(that).params._wpnonce;
 
         //If the frame already exists, reopen it
@@ -69,7 +69,8 @@
                     // This is the column location to place the img
 					var pre_html = '<a title="Change featured image" href="' + '/wp-admin/media-upload.php?post_id=' + post_id + '&amp;type=image&amp;TB_iframe=1&_wpnonce=' + nonce + '" id="set-post-thumbnail" class="fiat_thickbox" >';
 					var post_html = '<span class="genericon genericon-edit fiat-icon"></span></a>';
-                    $( '.thumb', '#post-' + post_id).html( pre_html + thumb_url + post_html );
+                    $( '.thumb', '#post-' + post_id ).html( pre_html + thumb_url + post_html );
+                    $( '.thumb', '#post-' + post_id ).hide().fadeIn();
                 })
             });
         });
@@ -78,6 +79,13 @@
         thumbnail_upload_frame.open();
     });
 
+    /**
+     * Parse supplied url and return parameters found as object
+     *
+     * @param url
+     * @returns {{params}}
+     * @constructor
+     */
     function FIATparseUrl( url ) {
 
         // props: http://james.padolsey.com/javascript/parsing-urls-with-the-dom/

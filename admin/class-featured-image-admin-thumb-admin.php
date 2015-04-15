@@ -339,10 +339,17 @@ class Featured_Image_Admin_Thumb_Admin {
      *
      */
     public function fiat_add_thumb_column($columns) {
+
+        $version = get_bloginfo('version');
+        preg_match( '/[\d]\.[\d]/', $version, $major_minor );
+        $dashicons = '';
+        if ( strval( $major_minor[0] ) >= 3.8 ) {
+            $dashicons = '<span class="dashicons-before dashicons-format-image"><span>';
+        }
         return array_merge(
             $columns,
             array(
-                'thumb' => __('Thumb'),
+                'thumb' => $dashicons . __('Thumb'),
             )
         );
     }

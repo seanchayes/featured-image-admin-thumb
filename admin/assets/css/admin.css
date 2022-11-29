@@ -1,6 +1,16 @@
 /* This stylesheet is used to style the admin option form of the plugin. */
 
-.fiat-icon {
-	font-size: 32px;
-	line-height: 46px;
+.fiat-thumb-small {
+	height: 60px;
+	width: 60px;
+}
+
+.fiat-thumb-medium {
+	height: 100px;
+	width: 100px;
+}
+
+.fiat-thumb-large {
+	height: 150px;
+	width: 150px;
 }

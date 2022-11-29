@@ -45,7 +45,7 @@ class Featured_Image_Admin_Thumb_Admin {
 
 	protected $fiat_nonce = null;
 	protected $text_domain;
-	protected $fiat_image_size = 'fiat_thumb';
+	protected $fiat_image_size = 'thumbnail';
 	protected $is_woocommerce_active;
 	protected $is_ninja_forms_active;
 	protected $is_edd_active;
@@ -91,7 +91,6 @@ class Featured_Image_Admin_Thumb_Admin {
 		// Load admin style sheet and JavaScript.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
-		add_image_size( $this->fiat_image_size, 60, 60, array( 'center', 'center' ) );
 		$this->is_woocommerce_active = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
 		$this->is_ninja_forms_active = in_array( 'ninja-forms/ninja-forms.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
 		$this->is_edd_active         = in_array( 'easy-digital-downloads/easy-digital-downloads.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
@@ -105,6 +104,9 @@ class Featured_Image_Admin_Thumb_Admin {
 		add_action( 'wp_ajax_fiat_get_thumbnail', array( $this, 'fiat_get_thumbnail' ) );
 
 		add_action( 'pre_get_posts', array( $this, 'fiat_posts_orderby' ) );
+
+		add_action( 'admin_menu', array($this, 'add_plugin_admin_page' ) );
+
 	}
 	/**
 	 * Register admin column handlers for posts and pages, taxonomies and other custom post types
@@ -171,8 +173,7 @@ class Featured_Image_Admin_Thumb_Admin {
 	 *
 	 */
 	public function enqueue_admin_styles() {
-
-		// blank and unused since v 1.5
+		wp_enqueue_style( 'fiat-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), Featured_Image_Admin_Thumb::VERSION );
 	}
 
 	/**
@@ -215,8 +216,15 @@ class Featured_Image_Admin_Thumb_Admin {
 					'change_featured_image' => __( 'Change featured image', 'featured-image-admin-thumb-fiat' ),
 				)
 			);
+
+			$this->enqueue_admin_styles();
 		}
 	}
+
+	public function add_plugin_admin_page() {
+		add_options_page( __( 'Featured Image Admin Thumb', 'featured-image-admin-thumb-fiat' ), __( 'Featured Image Admin Thumb', 'featured-image-admin-thumb-fiat' ), 'manage_options', 'fiat', array( $this, 'display_plugin_admin_page' ) );
+	}
+
 
 	/**
 	 * Render the settings page for this plugin.
@@ -341,13 +349,14 @@ class Featured_Image_Admin_Thumb_Admin {
 					if ( $this->fiat_on_woocommerce_products_list() ) {
 						$thumb_url = '';
 					} else {
-						if ( 'thumbnail' === $fiat_image_size ) {
-							// size down this time
-							$thumb_url = wp_get_attachment_image( $thumbnail_id, array( 60, 60 ) );
-						} else {
-							// use native sized image
-							$thumb_url = get_image_tag( $thumbnail_id, '', '', '', $fiat_image_size );
-						}
+						$fiat_size_class = 'fiat-thumb-small';
+
+						$fiat_current_size = get_option( 'fiat-thumb-size', 'small' );
+
+						if( $fiat_current_size === 'large' ) { $fiat_size_class = 'fiat-thumb-large'; }
+						if( $fiat_current_size === 'medium' ) { $fiat_size_class = 'fiat-thumb-medium'; }
+
+						$thumb_url = wp_get_attachment_image( $thumbnail_id, 'thumbnail', false, array( 'class' => $fiat_size_class ) );
 					}
 					// Here it is!
 					$this->fiat_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post_id );

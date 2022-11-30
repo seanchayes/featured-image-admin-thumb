@@ -51,7 +51,11 @@ class Featured_Image_Admin_Thumb_Admin {
 	protected $is_edd_active;
 	protected $plugin_slug;
 	protected $template_html;
+	protected $template_html_nothickbox;
 	protected $fiat_kses;
+	protected $fiat_thumbnail_size = 'small';
+	protected $fiat_link_action = 'thumbnail';
+	protected $fiat_size_class = 'fiat-thumb-small';
 
 	// Expect that we won't need thumbnails for these post types.
 	protected $default_excluded_post_types = array(
@@ -68,11 +72,24 @@ class Featured_Image_Admin_Thumb_Admin {
 		 * Call $plugin_slug from public plugin class.
 		 *
 		 */
-		$plugin              = Featured_Image_Admin_Thumb::get_instance();
-		$this->plugin_slug   = $plugin->get_plugin_slug();
-		$this->text_domain   = $plugin->load_plugin_textdomain();
-		$this->template_html = '<a title="' . __( 'Change featured image', 'featured-image-admin-thumb-fiat' ) . '" href="%1$s" class="fiat_thickbox" data-thumbnail-id="%3$d">%2$s</a>';
-		$this->fiat_kses     = array(
+		$plugin              			= Featured_Image_Admin_Thumb::get_instance();
+		$this->plugin_slug   			= $plugin->get_plugin_slug();
+		$this->text_domain   			= $plugin->load_plugin_textdomain();
+
+		// Get the current plugin settings.
+		$this->fiat_thumbnail_size 		= get_option( 'fiat-thumb-size', 'small' );
+		$this->fiat_link_action 		= get_option( 'fiat-link-action', 'thumbnail' );
+
+		// Set the thumbnail size class if it's not small.
+		if( $this->fiat_thumbnail_size === 'large' ) { $this->fiat_size_class = 'fiat-thumb-large'; }
+		if( $this->fiat_thumbnail_size === 'medium' ) { $this->fiat_size_class = 'fiat-thumb-medium'; }
+
+		// Setup the template html strings.
+		$this->template_html 			= '<a title="' . __( 'Change featured image', 'featured-image-admin-thumb-fiat' ) . '" href="%1$s" class="fiat_thickbox" data-thumbnail-id="%3$d">%2$s</a>';
+		$this->template_html_nothickbox = '<a title="' . __( 'Edit post', 'featured-image-admin-thumb-fiat' ) . '" href="%1$s" data-thumbnail-id="%3$d">%2$s</a>';
+
+		// Define our allowed kses parameters
+		$this->fiat_kses     			= array(
 			'a'   => array(
 				'href'              => array(),
 				'class'             => array(),
@@ -88,23 +105,24 @@ class Featured_Image_Admin_Thumb_Admin {
 				'class'  => array(),
 			),
 		);
+
 		// Load admin style sheet and JavaScript.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
-		$this->is_woocommerce_active = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
-		$this->is_ninja_forms_active = in_array( 'ninja-forms/ninja-forms.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
-		$this->is_edd_active         = in_array( 'easy-digital-downloads/easy-digital-downloads.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
+		// See if some other common plugins are active.
+		$this->is_woocommerce_active 	= in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
+		$this->is_ninja_forms_active 	= in_array( 'ninja-forms/ninja-forms.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
+		$this->is_edd_active         	= in_array( 'easy-digital-downloads/easy-digital-downloads.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
 
+		// Don't try and add thumbnails to ninja forms pages.
 		if ( $this->is_ninja_forms_active ) {
 			add_filter( 'fiat/restrict_post_types', array( $this, 'restrict_post_type_filter' ) );
 		}
 
+		// Setup the main plugin actions.
 		add_action( 'admin_init', array( $this, 'fiat_init_columns' ) );
-
 		add_action( 'wp_ajax_fiat_get_thumbnail', array( $this, 'fiat_get_thumbnail' ) );
-
 		add_action( 'pre_get_posts', array( $this, 'fiat_posts_orderby' ) );
-
 		add_action( 'admin_menu', array($this, 'add_plugin_admin_page' ) );
 
 	}
@@ -134,8 +152,6 @@ class Featured_Image_Admin_Thumb_Admin {
 			add_action( "manage_{$taxonomy}_posts_custom_column", array( $this, 'fiat_custom_columns' ), 2, 2 );
 			add_filter( "manage_{$taxonomy}_posts_columns", array( $this, 'fiat_add_thumb_column' ) );
 		}
-
-
 	}
 
 	/**
@@ -316,16 +332,28 @@ class Featured_Image_Admin_Thumb_Admin {
 	public function fiat_custom_columns( $column, $post_id ) {
 		switch ( $column ) {
 			case 'thumb':
-				if ( has_post_thumbnail( $post_id ) ) {
+				$post_has_thumbnail = has_post_thumbnail( $post_id );
+
+				if ( $post_has_thumbnail ) {
 					// Determine if our image size has been created and use
 					// that size/attribute combination
 					// else get the post-thumbnail image and apply custom sizing to
 					// size it to fit in the admin dashboard
-					$sizes        = '';
+					$sizes        = array();
 					$thumbnail_id = get_post_thumbnail_id( $post_id );
 					$tpm          = wp_get_attachment_metadata( $thumbnail_id );
 					if ( false !== $tpm && ! empty( $tpm ) ) {
 						$sizes = $tpm['sizes'];
+					}
+
+					// Attempt to generate the image sub-sizes if we don't have any or the thumbnail size doesn't exist.
+					if ( empty( $sizes ) || !array_key_exists( 'thumbnail', $sizes ) ) {
+						wp_update_image_subsizes( $thumbnail_id, );
+
+						$tpm          = wp_get_attachment_metadata( $thumbnail_id );
+						if ( false !== $tpm && ! empty( $tpm ) ) {
+							$sizes = $tpm['sizes'];
+						}
 					}
 
 					// Default to thumbnail size (as this will be sized down reducing the bandwidth until the image thumbnail is regenerated)
@@ -349,28 +377,33 @@ class Featured_Image_Admin_Thumb_Admin {
 					if ( $this->fiat_on_woocommerce_products_list() ) {
 						$thumb_url = '';
 					} else {
-						$fiat_size_class = 'fiat-thumb-small';
-
-						$fiat_current_size = get_option( 'fiat-thumb-size', 'small' );
-
-						if( $fiat_current_size === 'large' ) { $fiat_size_class = 'fiat-thumb-large'; }
-						if( $fiat_current_size === 'medium' ) { $fiat_size_class = 'fiat-thumb-medium'; }
-
-						$thumb_url = wp_get_attachment_image( $thumbnail_id, 'thumbnail', false, array( 'class' => $fiat_size_class ) );
+						$thumb_url = wp_get_attachment_image( $thumbnail_id, 'thumbnail', false, array( 'class' => $this->fiat_size_class ) );
 					}
 					// Here it is!
 					$this->fiat_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post_id );
 
-					$html = sprintf(
-						$this->template_html,
-						admin_url( 'media-upload.php?post_id=' . $post_id . '&amp;type=image&amp;TB_iframe=1&_wpnonce=' . $this->fiat_nonce ),
-						$thumb_url,
-						$thumbnail_id
-					);
+					// Create the html based on what the thumbnail click action is.
+					if ( $this->fiat_link_action === 'thumbnail' ) {
+						$html = sprintf(
+							$this->template_html,
+							admin_url( 'media-upload.php?post_id=' . $post_id . '&amp;type=image&amp;TB_iframe=1&_wpnonce=' . $this->fiat_nonce ),
+							$thumb_url,
+							$thumbnail_id
+						);
+					} else {
+						$html = sprintf(
+							$this->template_html_nothickbox,
+							admin_url( 'post.php?post=' . $post_id . '&amp;action=edit&_wpnonce=' . $this->fiat_nonce ),
+							$thumb_url,
+							$thumbnail_id
+						);
+					}
+
 					// Click me to change!
 					echo wp_kses( $html, $this->fiat_kses );
-				} else {
+				}
 
+				if ( ! $post_has_thumbnail || $this->fiat_link_action === 'postedit' ) {
 					$this->fiat_nonce   = wp_create_nonce( 'set_post_thumbnail-' . $post_id );
 					$set_featured_image = sprintf( __( 'Set %s featured image', 'featured-image-admin-thumb-fiat' ), '<br/>' );
 					$set_edit_markup    = $this->fiat_on_woocommerce_products_list() ? '' : $set_featured_image;
@@ -381,6 +414,10 @@ class Featured_Image_Admin_Thumb_Admin {
 						$set_edit_markup,
 						$post_id
 					);
+
+					// Add in an extra break to if there is a thumbnail so the link appears under it instead of beside it.
+					if( $post_has_thumbnail ) { echo '<br>'; }
+
 					// Click me!
 					echo wp_kses( $html, $this->fiat_kses );
 				}

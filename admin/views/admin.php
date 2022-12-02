@@ -12,23 +12,33 @@
  * @copyright 2014 Sean Hayes
  */
 
-	$fiat_allowed_sizes = array( 'small', 'medium', 'large' );
+	$fiat_allowed_sizes = wp_get_registered_image_subsizes() ;
+	$fiat_allowed_actions = array( 'thumbnail', 'postedit' );
 
 	// Save the options if the user click save.
 	if( isset( $_POST['fiatupdateoptions'] ) ) {
 		if( !isset( $_POST['fiat-thumb-size'] ) ) { $_POST['fiat-thumb-size'] = 'small'; }
+		if( !isset( $_POST['fiat-link-action'] ) ) { $_POST['fiat-link-action'] = 'thumbnail'; }
 
-		if( in_array($_POST['fiat-thumb-size'], $fiat_allowed_sizes ) )	{
+		if( array_key_exists($_POST['fiat-thumb-size'], $fiat_allowed_sizes ) )	{
 			update_option( 'fiat-thumb-size', sanitize_text_field( $_POST['fiat-thumb-size'] ) );
-
-			echo "<div id='setting-error-settings_updated' class='updated settings-error'><p><strong>" . __( 'Settings saved.', 'featured-image-admin-thumb-fiat') . "</strong></p></div>\n";
 		}
 		else {
-			echo "<div id='setting-error-settings_updated' class='error settings-error'><p><strong>" . __( 'Invalid size!.','featured-image-admin-thumb-fiat') . "</strong></p></div>\n";
+			echo "<div id='setting-error-settings_updated' class='error settings-error'><p><strong>" . __( 'Invalid size!','featured-image-admin-thumb-fiat') . "</strong></p></div>\n";
 		}
+
+		if( in_array($_POST['fiat-link-action'], $fiat_allowed_actions ) )	{
+			update_option( 'fiat-link-action', sanitize_text_field( $_POST['fiat-link-action'] ) );
+		}
+		else {
+			echo "<div id='setting-error-settings_updated' class='error settings-error'><p><strong>" . __( 'Invalid action!','featured-image-admin-thumb-fiat') . "</strong></p></div>\n";
+		}
+
+		echo "<div id='setting-error-settings_updated' class='updated settings-error'><p><strong>" . __( 'Settings saved.', 'featured-image-admin-thumb-fiat') . "</strong></p></div>\n";
 	}
 
-	$current_thumb_size = get_option( 'fiat-thumb-size', 'small' );
+	$current_thumb_size = get_option( 'fiat-thumb-size', 'thumbnail' );
+	$current_link_action = get_option( 'fiat-link-action', 'thumbnail' );
 ?>
 
 <div class="wrap">
@@ -40,11 +50,26 @@
 
 	<form method="post" action="options-general.php?page=fiat">
 		<div>
-		Thumbnail display size:
+		<?php _e( 'Thumbnail display size', 'featured-image-admin-thumb-fiat' ); ?>:
 			<select name="fiat-thumb-size" id="fiat-thumb-size">
-				<option value="small"<?php if( $current_thumb_size == 'small' ) { echo ' selected'; } ?>><?php _e( 'Small', 'featured-image-admin-thumb-fiat'); ?></option>
-				<option value="medium"<?php if( $current_thumb_size == 'medium' ) { echo ' selected'; } ?>><?php _e( 'Medium', 'featured-image-admin-thumb-fiat'); ?></option>
-				<option value="large"<?php if( $current_thumb_size == 'large' ) { echo ' selected'; } ?>><?php _e( 'Large', 'featured-image-admin-thumb-fiat'); ?></option>
+<?php
+				foreach( $fiat_allowed_sizes as $name => $size ) {
+					if( $size['crop'] ) { $crop = "cropped "; } else { $crop = ""; }
+					if( $current_thumb_size == $name ) { $selected = ' selected'; } else { $selected = ''; }
+
+					echo "\t\t\t\t<option value=\"$name\"$selected>$name ($crop$size[width]x$size[height])</option>" . PHP_EOL;
+				}
+?>
+			</select>
+		</div>
+
+		<p></p>
+
+		<div>
+		<?php _e( 'Thumbnail link action', 'featured-image-admin-thumb-fiat' ); ?>:
+			<select name="fiat-link-action" id="fiat-link-action">
+				<option value="thumbnail"<?php if( $current_link_action == 'thumbnail' ) { echo ' selected'; } ?>><?php _e( 'Set Thumbnail', 'featured-image-admin-thumb-fiat'); ?></option>
+				<option value="postedit"<?php if( $current_link_action == 'postedit' ) { echo ' selected'; } ?>><?php _e( 'Edit Post', 'featured-image-admin-thumb-fiat'); ?></option>
 			</select>
 		</div>
 

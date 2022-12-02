@@ -57,14 +57,19 @@ During testing I found that if a post has a featured image assigned but does not
 
 == Screenshots ==
 
-1. This shows the Thumb column in the All Pages/Posts admin view and in this case a thumbnail is available and shown. There would be a blank space if no thumbnail was found for the post or page.
-2. If the column is not showing in your All Posts/Pages view this shows you where you can check to see that the "Thumb" column is selected to be displayed
-3. Shows the change icon located next to a featured image/thumb indicating it can be changed inline without having to edit the content item first
-4. Shows the default display when no sorting is set on the thumb column
-5. Shows the thumb column when sorted ascending
-6. Shows the thumb column when sorted descending
+1. The Featured Image column in the All Pages/Posts admin view when no featured image is set.
+2. The Featured Image column in the All Pages/Posts admin view when a featured image is set.
+3. The Featured Image column in the All Pages/Posts admin view when a featured image is set and the click action is set to edit post.
+4. The screen options pull down menu in the Post/Pages screen.
 
 == Changelog ==
+2.0 (TBD)
+* Allow different thumbnail sizes to be used.
+* Allow user to set what action is taken when clicking the thumbnail (edit post or set featured image), if set to edit post, the "Set featured image" link will appear below the thumbnail.
+* Add settings page for above options.
+* Renamed "Thumb" column to "Featured Image".
+* Added function to generate the required thumbnail size if it does not yet exist.
+
 1.6 (2021-03-30)
 * Addresses plugin conflict when using Gutenberg editor and ACF [Conflict with ACF](https://wordpress.org/support/topic/conflict-with-acf-11/)
 

@@ -2,7 +2,7 @@
 Contributors: seanchayes
 Donate link: https://www.seanhayes.biz/
 Tags: post-thumbnail, thumbnail, admin, image, featured, featured image, featured thumbnail, featured admin thumbnail
-Requires at least: 3.5.1
+Requires at least: 5.3
 Requires PHP: 7.0
 Tested up to: 5.9
 Stable tag: 1.6

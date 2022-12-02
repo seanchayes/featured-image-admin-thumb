@@ -14,7 +14,7 @@
     "wordpress"
   ],
   "author": "Sean Hayes",
-  "license": "GPL-2.0",
+  "license": "GPL-2.0+",
   "bugs": {
     "url": "https://github.com/seanchayes/featured-image-admin-thumb/issues"
   },

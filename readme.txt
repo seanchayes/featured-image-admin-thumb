@@ -4,8 +4,8 @@ Donate link: https://www.seanhayes.biz/
 Tags: post-thumbnail, thumbnail, admin, image, featured, featured image, featured thumbnail, featured admin thumbnail
 Requires at least: 5.3
 Requires PHP: 7.0
-Tested up to: 5.9
-Stable tag: 1.6
+Tested up to: 6.1
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,12 +13,11 @@ Adds inline thumbnail image to admin columns on Post/post types view (where supp
 
 == Description ==
 
-When active this plugin adds a column to the All Posts/All Pages and where supported the All Custom Post Type admin views. This column, "Thumb", will display a thumbnail of the featured image
- or post thumbnail so you can easily determine the content that is missing an image.
+When active this plugin adds a column to the All Posts/All Pages and where supported the All Custom Post Type admin views. This column, "Featured Image", will display a thumbnail of the featured image or post thumbnail so you can easily determine the content that is missing an image.
 
-You can also make inline edits that allow you to change the thumb/image from the All Posts/All Pages/All Custom Post Type view without having to edit the post.
+You can also make inline edits that allow you to change the featured image from the All Posts/All Pages/All Custom Post Type view without having to edit the post.
 
-Now the plugin is translatable. Using tools such as Poedit along with localized / international versions of WordPress, FIAT can display user supplied translations of its text.
+The plugin is now translatable using the wp.org translation tools.
 
 == Installation ==
 
@@ -45,14 +44,14 @@ Now the plugin is translatable. Using tools such as Poedit along with localized 
 3. Upload the `featured-image-admin-thumb` directory to the `/wp-content/plugins/` directory
 4. Activate the plugin in the Plugin dashboard
 
-
 == Frequently Asked Questions ==
 
 = You don't see the thumb column and the thumbnails in that column =
 
-After checking that the plugin is enabled, be sure to click Screen Options if you don't immediately see the column and ensure "Thumb" has a checkmark next to it
+After checking that the plugin is enabled, be sure to click Screen Options if you don't immediately see the column and ensure "Featured Image" has a checkmark next to it
 
 = My thumbnail column shows posts with blank areas in the thumb column =
+
 During testing I found that if a post has a featured image assigned but does not show a thumbnail it was because the image file is missing it will show up blank within the sorted posts that do show thumbnails
 
 == Screenshots ==
@@ -63,6 +62,7 @@ During testing I found that if a post has a featured image assigned but does not
 4. The screen options pull down menu in the Post/Pages screen.
 
 == Changelog ==
+
 2.0 (TBD)
 * Allow different thumbnail sizes to be used.
 * Allow user to set what action is taken when clicking the thumbnail (edit post or set featured image), if set to edit post, the "Set featured image" link will appear below the thumbnail.

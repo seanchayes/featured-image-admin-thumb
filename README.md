@@ -3,7 +3,7 @@
 Featured Image Admin Thumbnails plugin enabled in the All Posts/All Pages views
 to display thumbnail images next to each post / page if one is present
 
-Adds inline thumbnail image to admin columns for All Post/post types view (where supported). Click to easily set/change the featured image for that content.
+Adds inline thumbnail image to admin columns on Post/post types view (where supported). Click to easily set/change the featured image.
 
 ## Description
 
@@ -11,6 +11,8 @@ When active this plugin adds a column to the All Posts/All Pages and where suppo
  or post thumbnail so you can easily determine the content that is missing an image.
 
 You can also make inline edits that allow you to change the thumb/image from the All Posts/All Pages/All Custom Post Type view without having to edit the post.
+
+Now the plugin is translatable. Using tools such as Poedit along with localized / international versions of WordPress, FIAT can display user supplied translations of its text.
 
 ### Installation
 
@@ -28,7 +30,7 @@ You can also make inline edits that allow you to change the thumb/image from the
 3. Select `featured-image-admin-thumb.zip` from your computer
 4. Click 'Install Now'
 5. Activate the plugin in the Plugin dashboard
-6. Consider using a thumbnail regenerator to create specific thumbnails for the All Posts/Pages admin views
+6. Consider using a thumbnail re-generator to create specific thumbnails for the All Posts/Pages admin views
 
 #### Using FTP
 
@@ -44,13 +46,25 @@ You can also make inline edits that allow you to change the thumb/image from the
 
 After checking that the plugin is enabled, be sure to click Screen Options if you don't immediately see the column and ensure "Thumb" has a checkmark next to it
 
+### My thumbnail column shows posts with blank areas in the thumb column
+During testing I found that if a post has a featured image assigned but does not show a thumbnail it was because the image file is missing it will show up blank within the sorted posts that do show thumbnails
+
 ### Screenshots
 
 1. This shows the Thumb column in the All Pages/Posts admin view and in this case a thumbnail is available and shown. There would be a blank space if no thumbnail was found for the post or page.
 2. If the column is not showing in your All Posts/Pages view this shows you where you can check to see that the "Thumb" column is selected to be displayed
+3. Shows the change icon located next to a featured image/thumb indicating it can be changed inline without having to edit the content item first
+4. Shows the default display when no sorting is set on the thumb column
+5. Shows the thumb column when sorted ascending
+6. Shows the thumb column when sorted descending
 
 ### Changelog
 == Changelog ==
+####1.6 (2021-03-30) ####
+* Addresses plugin conflict when using Gutenberg editor and ACF [Conflict with ACF](https://wordpress.org/support/topic/conflict-with-acf-11/)
+
+#### 1.5.3 (2019-07-01) ####
+* Addresses thumb column dislay issue with EDD Frontend Submissions [Plugin not working with EDD](https://wordpress.org/support/topic/plugin-not-working-with-edd/)
 
 #### 1.5.2 (2018-09-26) ####
 * Addresses an issue where in Excerpt view where the displayed thumbnail did not represent the thumbnail in the post. Switching to List view, however, the thumbnail showed correctly.

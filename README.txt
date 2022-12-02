@@ -19,6 +19,7 @@ When active this plugin adds a column to the All Posts/All Pages and where suppo
 You can also make inline edits that allow you to change the thumb/image from the All Posts/All Pages/All Custom Post Type view without having to edit the post.
 
 Now the plugin is translatable. Using tools such as Poedit along with localized / international versions of WordPress, FIAT can display user supplied translations of its text.
+
 == Installation ==
 
 = Using The WordPress Dashboard =

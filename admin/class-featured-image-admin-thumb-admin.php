@@ -111,6 +111,7 @@ class Featured_Image_Admin_Thumb_Admin {
 				'height' => array(),
 				'class'  => array(),
 			),
+			'br' => array(),
 		);
 
 		// Load admin style sheet and JavaScript.
@@ -312,12 +313,37 @@ class Featured_Image_Admin_Thumb_Admin {
 				if ( isset( $_POST['thumbnail_id'] ) && ! empty( $_POST['thumbnail_id'] ) ) {
 					$thumbnail_id = intval( $_POST['thumbnail_id'] );
 					$thumb_url    = get_image_tag( $thumbnail_id, '', '', '', $this->fiat_thumbnail_size );
-					$html         = sprintf(
-						$this->template_html,
-						admin_url( 'media-upload.php?post_id=' . $post_ID . '&amp;type=image&amp;TB_iframe=1&_wpnonce=' . wp_create_nonce( 'set_post_thumbnail-' . $post_ID ) ),
-						$thumb_url,
-						esc_attr( $thumbnail_id )
-					);
+
+					// Create the html based on what the thumbnail click action is.
+					if ( $this->fiat_link_action === 'thumbnail' ) {
+						$html = sprintf(
+							$this->template_html,
+							admin_url( 'media-upload.php?post_id=' . $post_ID . '&amp;type=image&amp;TB_iframe=1&_wpnonce=' . $this->fiat_nonce ),
+							$thumb_url,
+							esc_attr( $thumbnail_id )
+						);
+					} else {
+						$html = sprintf(
+							$this->template_html_nothickbox,
+							admin_url( 'post.php?post=' . $post_ID . '&amp;action=edit&_wpnonce=' . $this->fiat_nonce ),
+							$thumb_url,
+							esc_attr( $thumbnail_id )
+						);
+
+						$set_featured_image = __( 'Set featured image', 'featured-image-admin-thumb-fiat' );
+						$set_edit_markup    = $this->fiat_on_woocommerce_products_list() ? '' : $set_featured_image;
+
+						// Add in an extra break so the link appears under it instead of beside it.
+						$html .= '<br>';
+
+						$html .= sprintf(
+							$this->template_html,
+							admin_url( 'media-upload.php?post_id=' . $post_id . '&amp;type=image&amp;TB_iframe=1&_wpnonce=' . $this->fiat_nonce ),
+							$set_edit_markup,
+							$post_id
+						);
+					}
+
 					echo wp_kses( $html, $this->fiat_kses );
 				}
 			}
@@ -395,7 +421,7 @@ class Featured_Image_Admin_Thumb_Admin {
 
 				if ( ! $post_has_thumbnail || $this->fiat_link_action === 'postedit' ) {
 					$this->fiat_nonce   = wp_create_nonce( 'set_post_thumbnail-' . $post_id );
-					$set_featured_image = sprintf( __( 'Set %s featured image', 'featured-image-admin-thumb-fiat' ), '<br/>' );
+					$set_featured_image = __( 'Set featured image', 'featured-image-admin-thumb-fiat' );
 					$set_edit_markup    = $this->fiat_on_woocommerce_products_list() ? '' : $set_featured_image;
 
 					$html = sprintf(

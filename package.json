@@ -1,29 +1,9 @@
 {
-  "name": "featured-image-admin-thumb-fiat",
-  "version": "2.0.0",
-  "description": "Adds inline thumbnail image to admin columns on Post/post types view (where supported). Click to easily set/change the featured image.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/seanchayes/featured-image-admin-thumb.git"
-  },
-  "keywords": [
-    "admin",
-    "posts",
-    "images",
-    "featured",
-    "wordpress"
-  ],
-  "author": "Sean Hayes",
-  "license": "GPL-2.0+",
-  "bugs": {
-    "url": "https://github.com/seanchayes/featured-image-admin-thumb/issues"
-  },
-  "homepage": "https://github.com/seanchayes/featured-image-admin-thumb#readme",
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-uglify": "~0.5.0",
+    "grunt": "~1.5.3",
+    "grunt-contrib-jshint": "~3.2.0",
+    "grunt-contrib-nodeunit": "~4.0.0",
+    "grunt-contrib-uglify": "~5.2.2",
     "grunt-wp-readme-to-markdown": "^2.1.0"
   }
 }

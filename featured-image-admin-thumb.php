@@ -4,20 +4,19 @@
  * @package   Featured_Image_Admin_Thumb
  * @author    Sean Hayes <sean@seanhayes.biz>
  * @license   GPL-2.0+
- * @link      http://www.seanhayes.biz
+ * @link      https://www.seanhayes.biz
  * @copyright 2014 Sean Hayes
  *
  * @wordpress-plugin
  * Plugin Name:       Featured Image Admin Thumb
- * Plugin URI:        http://www.seanhayes.biz
- * Description:       Adds a thumbnail image in an admin column in the All Posts/All Pages/All Custom Post types view (where supported) to display/change the featured image or post thumbnail associated with that post / page.
- * Version:           1.3
+ * Plugin URI:        https://www.seanhayes.biz
+ * Description:       Adds inline thumbnail image to admin columns for All Post/post types view (where supported). Click to easily set/change the featured image for that content.
+ * Version:           2.0
  * Author:            Sean Hayes
- * Author URI:        http://www.seanhayes.biz
- * Text Domain:       featured-image-admin-thumb-locale
+ * Author URI:        https://www.seanhayes.biz
+ * Text Domain:       featured-image-admin-thumb-fiat
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Domain Path:       /languages
  */
 
 // If this file is called directly, abort.

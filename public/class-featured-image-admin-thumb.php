@@ -29,7 +29,7 @@ class Featured_Image_Admin_Thumb {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.6';
 
 	/**
 	 *
@@ -44,7 +44,7 @@ class Featured_Image_Admin_Thumb {
 	 *
 	 * @var      string
 	 */
-	protected $plugin_slug = 'featured-image-admin-thumb';
+	protected $plugin_slug = 'featured-image-admin-thumb-fiat';
 
 	/**
 	 * Instance of this class.
@@ -69,18 +69,6 @@ class Featured_Image_Admin_Thumb {
 		// Activate plugin when new blog is added
 		add_action( 'wpmu_new_blog',        array( $this, 'activate_new_site' ) );
 
-		// Load public-facing style sheet and JavaScript.
-        // FIAT (Featured Image Admin Thumb) does not use these at present
-		//add_action( 'wp_enqueue_scripts',   array( $this, 'enqueue_styles' ) );
-		//add_action( 'wp_enqueue_scripts',   array( $this, 'enqueue_scripts' ) );
-
-		/* Define custom functionality.
-		 * Refer To http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
-		 */
-		//add_action( '@TODO', array( $this, 'action_method_name' ) );
-		//add_filter( '@TODO', array( $this, 'filter_method_name' ) );
-
-
     }
 
 	/**
@@ -88,7 +76,7 @@ class Featured_Image_Admin_Thumb {
 	 *
 	 * @since    1.0.0
 	 *
-	 *@return    Plugin slug variable.
+	 * @return    string Plugin slug variable.
 	 */
 	public function get_plugin_slug() {
 		return $this->plugin_slug;
@@ -125,9 +113,9 @@ class Featured_Image_Admin_Thumb {
 
 		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 
-			if ( $network_wide  ) {
+			if ( $network_wide ) {
 
-				// Get all blog ids
+				// Get all blog ids.
 				$blog_ids = self::get_blog_ids();
 
 				foreach ( $blog_ids as $blog_id ) {
@@ -164,7 +152,7 @@ class Featured_Image_Admin_Thumb {
 
 			if ( $network_wide ) {
 
-				// Get all blog ids
+				// Get all blog ids.
 				$blog_ids = self::get_blog_ids();
 
 				foreach ( $blog_ids as $blog_id ) {
@@ -253,11 +241,11 @@ class Featured_Image_Admin_Thumb {
 	 */
 	public function load_plugin_textdomain() {
 
-		$domain = $this->plugin_slug;
-		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-
-		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
-
+		load_plugin_textdomain(
+				$this->plugin_slug,
+				false,
+				dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+		);
 	}
 
 	/**
@@ -276,33 +264,6 @@ class Featured_Image_Admin_Thumb {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'assets/js/public.js', __FILE__ ), array( 'jquery' ), self::VERSION );
-	}
-
-	/**
-	 * NOTE:  Actions are points in the execution of a page or process
-	 *        lifecycle that WordPress fires.
-	 *
-	 *        Actions:    http://codex.wordpress.org/Plugin_API#Actions
-	 *        Reference:  http://codex.wordpress.org/Plugin_API/Action_Reference
-	 *
-	 * @since    1.0.0
-	 */
-	public function action_method_name() {
-		// @TODO: Define your action hook callback here
-	}
-
-
-	/**
-	 * NOTE:  Filters are points of execution in which WordPress modifies data
-	 *        before saving it or sending it to the browser.
-	 *
-	 *        Filters: http://codex.wordpress.org/Plugin_API#Filters
-	 *        Reference:  http://codex.wordpress.org/Plugin_API/Filter_Reference
-	 *
-	 * @since    1.0.0
-	 */
-	public function filter_method_name() {
-		// @TODO: Define your filter hook callback here
 	}
 
 }

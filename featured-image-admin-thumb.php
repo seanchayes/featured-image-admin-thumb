@@ -56,5 +56,14 @@ add_action( 'plugins_loaded',           array( 'Featured_Image_Admin_Thumb', 'ge
 if ( is_admin() ) {
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-featured-image-admin-thumb-admin.php' );
 	add_action( 'plugins_loaded', array( 'Featured_Image_Admin_Thumb_Admin', 'get_instance' ) );
-
+	add_action(
+		'init',
+		static function (){
+			load_plugin_textdomain(
+				'featured-image-admin-thumb-fiat',
+				false,
+				dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+			);
+		}
+	);
 }

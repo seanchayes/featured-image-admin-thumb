@@ -44,7 +44,6 @@ class Featured_Image_Admin_Thumb_Admin {
 	 */
 
 	protected $fiat_nonce = null;
-	protected $text_domain;
 	protected $fiat_image_size = 'fiat_thumb';
 	protected $is_woocommerce_active;
 	protected $is_ninja_forms_active;
@@ -70,7 +69,6 @@ class Featured_Image_Admin_Thumb_Admin {
 		 */
 		$plugin              = Featured_Image_Admin_Thumb::get_instance();
 		$this->plugin_slug   = $plugin->get_plugin_slug();
-		$this->text_domain   = $plugin->load_plugin_textdomain();
 		$this->template_html = '<a title="' . __( 'Change featured image', 'featured-image-admin-thumb-fiat' ) . '" href="%1$s" class="fiat_thickbox" data-thumbnail-id="%3$d">%2$s</a>';
 		$this->fiat_kses     = array(
 			'a'   => array(

@@ -4,8 +4,8 @@ Donate link: https://www.seanhayes.biz/
 Tags: post-thumbnail, thumbnail, admin, image, featured, featured image, featured thumbnail, featured admin thumbnail
 Requires at least: 3.5.1
 Requires PHP: 7.0
-Tested up to: 6.4
-Stable tag: 1.6
+Tested up to: 6.8
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,13 @@ During testing I found that if a post has a featured image assigned but does not
 6. Shows the thumb column when sorted descending
 
 == Changelog ==
+1.6.1 (2025-04-26)
+* Addresses 
+Function _load_textdomain_just_in_time was called incorrectly issues reported in the following threads in the support forum
+
+[Bug report for latest updates (WordPress 6.8, FIAT 1.6)](https://wordpress.org/support/topic/bug-report-for-latest-updates-wordpress-6-8-fiat-1-6/)
+[Error Notices for Featured Image Admin Thumb After WordPress 6.7.1 Update](https://wordpress.org/support/topic/error-notices-for-featured-image-admin-thumb-after-wordpress-6-7-1-update/)
+
 1.6 (2021-03-30)
 * Addresses plugin conflict when using Gutenberg editor and ACF [Conflict with ACF](https://wordpress.org/support/topic/conflict-with-acf-11/)
 

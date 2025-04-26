@@ -44,7 +44,6 @@ class Featured_Image_Admin_Thumb_Admin {
 	 */
 
 	protected $fiat_nonce = null;
-	protected $text_domain;
 	protected $fiat_image_size = 'fiat_thumb';
 	protected $is_woocommerce_active;
 	protected $is_ninja_forms_active;
@@ -70,8 +69,6 @@ class Featured_Image_Admin_Thumb_Admin {
 		 */
 		$plugin              = Featured_Image_Admin_Thumb::get_instance();
 		$this->plugin_slug   = $plugin->get_plugin_slug();
-		$this->text_domain   = $plugin->load_plugin_textdomain();
-		$this->template_html = '<a title="' . __( 'Change featured image', 'featured-image-admin-thumb-fiat' ) . '" href="%1$s" class="fiat_thickbox" data-thumbnail-id="%3$d">%2$s</a>';
 		$this->fiat_kses     = array(
 			'a'   => array(
 				'href'              => array(),
@@ -101,11 +98,22 @@ class Featured_Image_Admin_Thumb_Admin {
 		}
 
 		add_action( 'admin_init', array( $this, 'fiat_init_columns' ) );
+		add_action( 'admin_init', array( $this, 'fiat_set_template_html' ) );
 
 		add_action( 'wp_ajax_fiat_get_thumbnail', array( $this, 'fiat_get_thumbnail' ) );
 
 		add_action( 'pre_get_posts', array( $this, 'fiat_posts_orderby' ) );
 	}
+
+	/**
+	 * Set the admin html template with language support
+	 *
+	 * Fired in the 'admin_init' action
+	 */
+	public function fiat_set_template_html() {
+		$this->template_html = '<a title="' . __( 'Change featured image', 'featured-image-admin-thumb-fiat' ) . '" href="%1$s" class="fiat_thickbox" data-thumbnail-id="%3$d">%2$s</a>';
+	}
+
 	/**
 	 * Register admin column handlers for posts and pages, taxonomies and other custom post types
 	 *
